@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas VIP - မေးလေ့ရှိသောမေးခွန်းများ</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts for Burmese script -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Apply the Padauk font as the default */
+        body {
+            font-family: 'Padauk', sans-serif;
+            background-color: #111827; /* Dark background */
+            color: #f3f4f6; /* Light text */
+        }
+
+        /* Custom styles for active tab */
+        .tab-active {
+            border-color: #3b82f6; /* Blue-500 */
+            color: #3b82f6;
+            background-color: #1f2937; /* Gray-800 */
+        }
+        
+        /* Custom styles for table (not directly used in this FAQ, but kept from original) */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        /* Styles for the accordion */
+        .accordion-item {
+            border-bottom: 1px solid #374151; /* Gray-700 */
+        }
+
+        .accordion-header {
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1f2937; /* Gray-800 */
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .accordion-content {
+            padding: 1rem;
+            background-color: #1a222f; /* Slightly lighter dark background for content */
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: none; /* Hidden by default */
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+        }
+
+        .accordion-content.active {
+            display: block; /* Show when active */
+            max-height: 500px; /* Adjust as needed for content height */
+        }
+
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .arrow.rotate {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-3xl mx-auto bg-gray-900 p-6 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-center mb-6 text-blue-400">Lucas VIP - မေးလေ့ရှိသောမေးခွန်းများ</h1>
+        <!-- Added instruction for the user -->
+        <p class="text-center text-red-400 mb-6">အပေါင်းလေးကို နှိပ်ပြီး ဖတ်ပေးပါ</p>
+        
+        <div id="faq-container">
+            <!-- FAQ Item 1 -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center text-lg font-semibold hover:bg-gray-700 transition duration-200 rounded-lg p-4 cursor-pointer" data-target="content-1">
+                    <span>Q1: ဇာတ်ကားတွေက save လို့မရဘူးလား။</span>
+                    <span class="arrow text-blue-400 text-2xl">+</span>
+                </div>
+                <div id="content-1" class="accordion-content text-gray-300 p-4 rounded-lg">
+                    <p>VIP Channel ကဇာတ်ကားတွေက save လို့မရပါဘူး။ ဖုန်းထဲသိမ်းမရပါ။ Save ဖွင့်လိုက်ရင် ဇာတ်ကားတွေပျက်တာမလို့ ဘယ်သူ့ကိုမှ ပေးဖွင့်မရပါဘူးခင်ဗျာ။</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center text-lg font-semibold hover:bg-gray-700 transition duration-200 rounded-lg p-4 cursor-pointer" data-target="content-2">
+                    <span>Q2: TV နဲ့ချိတ်ကြည့်လို့မရဘူးလား။</span>
+                    <span class="arrow text-blue-400 text-2xl">+</span>
+                </div>
+                <div id="content-2" class="accordion-content text-gray-300 p-4 rounded-lg">
+                    <p>TV အမျိုးအစားပေါ်မူတည်ပြီး ကြည့်ရတဲ့လူတွေရပါတယ်။ တချို့လည်းကြည့်မရပါ။ Admin တို့လည်းဘာမှလုပ်ပေးမရပါဘူးဗျ။</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center text-lg font-semibold hover:bg-gray-700 transition duration-200 rounded-lg p-4 cursor-pointer" data-target="content-3">
+                    <span>Q3: ဇာတ်ကားအသစ်တွေမတင်ဘူးလား။</span>
+                    <span class="arrow text-blue-400 text-2xl">+</span>
+                </div>
+                <div id="content-3" class="accordion-content text-gray-300 p-4 rounded-lg">
+                    <p>ရုံတင်ကားတွေက တစ်လကို (၁) ကား၊ (၂) ကား၊ အလွန်ဆုံးမှ (၃) ကားလောက်ပဲထွက်ပါတယ်။</p>
+                    <p>မြန်မာကားတွေက တခြားကားတွေလို အများကြီးမထွက်ပါဘူး။</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center text-lg font-semibold hover:bg-gray-700 transition duration-200 rounded-lg p-4 cursor-pointer" data-target="content-4">
+                    <span>Q4: မထွက်သေးတဲ့ ရုံကြီးကားတွေ ဘယ်တော့လောက်ကြည့်လို့ရမလဲ။</span>
+                    <span class="arrow text-blue-400 text-2xl">+</span>
+                </div>
+                <div id="content-4" class="accordion-content text-gray-300 p-4 rounded-lg">
+                    <p>လောလောလတ်လတ်ရုံတင်နေတဲ့ကားတွေ ရုံတင်ပြီးသားဇာတ်ကားကြီးတွေ ဘယ်တော့ထွက်မလဲဆိုတာ Admin တို့မသိနိုင်ပါဘူး။ ချန်နယ်လိုင်းတွေကနေပြမှပဲ ကြည့်လို့ရပါတယ်။ ရုံတင်ပြီး အနည်းဆုံး ၂ နှစ်ကနေ ၅ နှစ်အတွင်း ထွက်နိုင်ပါတယ်။ တချို့ကားတွေလည်း လုံးဝမထွက်ပါဘူး။</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center text-lg font-semibold hover:bg-gray-700 transition duration-200 rounded-lg p-4 cursor-pointer" data-target="content-5">
+                    <span>Q5: ဇာတ်ကားတွေက ကြည့်မရဘူး။ ရပ်သွားတယ်။ ပွင့်မလာဘူး။</span>
+                    <span class="arrow text-blue-400 text-2xl">+</span>
+                </div>
+                <div id="content-5" class="accordion-content text-gray-300 p-4 rounded-lg">
+                    <p>အဲ့ဒါကတော့ ကိုယ်အသုံးပြုနေတဲ့ ဖုန်းနဲ့ဆိုင်တာမလို့ ကျွန်တော်တို့ပြင်လို့မရပါဘူးဗျ။</p>
+                    <p>ဇာတ်ကားတွေက ကျွန်တော်တို့ဘက်ကနေ ဖုန်းနဲ့ကြည့်ပြီး ကြည့်ရတယ်ဆိုမှ တင်တာပါ။</p>
+                    <p>မန်ဘာတော်တော်များများလည်း ကြည့်လို့ရပါတယ်။ ဗီဒီယိုဖိုင်အမျိုးအစားနဲ့ ဖုန်းနဲ့မကိုက်တာမလို့ ဖြစ်နိုင်ပါတယ်။</p>
+                    <p>ကျွန်တော်တို့ပြင်ပေးလို့ မရနိုင်တာကိုတော့ နားလည်ပေးပါဗျ။</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center text-lg font-semibold hover:bg-gray-700 transition duration-200 rounded-lg p-4 cursor-pointer" data-target="content-6">
+                    <span>Q6: Telegram အကောင့်ပြောင်းဝင်လို့ရလား။</span>
+                    <span class="arrow text-blue-400 text-2xl">+</span>
+                </div>
+                <div id="content-6" class="accordion-content text-gray-300 p-4 rounded-lg">
+                    <p>အခု မိမိဝယ်ထားတဲ့အကောင့်ကလွဲရင် တခြားအကောင့်ကို ပြောင်းသုံးလို့မရပါဘူး။ လက်ရှိ VIP ပေါက်ဈေးနဲ့ မန်ဘာအသစ်ထပ်ဝင်မှ ရပါမယ်ခင်ဗျ။</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 7 -->
+            <div class="accordion-item">
+                <div class="accordion-header flex justify-between items-center text-lg font-semibold hover:bg-gray-700 transition duration-200 rounded-lg p-4 cursor-pointer" data-target="content-7">
+                    <span>Q7: Telegram ဖုန်းနံပါတ်ဘယ်လိုပြောင်းရမလဲ။</span>
+                    <span class="arrow text-blue-400 text-2xl">+</span>
+                </div>
+                <div id="content-7" class="accordion-content text-gray-300 p-4 rounded-lg">
+                    <p>မိမိအကောင့် Setting ကိုနှိပ်ပါ > ဖုန်းနံပါတ်ကိုနှိပ်ပါ > ပြီးရင် နံပါတ်ပြောင်းလို့ရပါပြီ။</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get all accordion headers
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const targetId = header.dataset.target;
+                const content = document.getElementById(targetId);
+                const arrow = header.querySelector('.arrow');
+
+                // Toggle the 'active' class on the content
+                content.classList.toggle('active');
+                // Rotate the arrow
+                arrow.classList.toggle('rotate');
+
+                // Close other open accordion items
+                accordionHeaders.forEach(otherHeader => {
+                    const otherTargetId = otherHeader.dataset.target;
+                    const otherContent = document.getElementById(otherTargetId);
+                    const otherArrow = otherHeader.querySelector('.arrow');
+
+                    if (otherHeader !== header && otherContent.classList.contains('active')) {
+                        otherContent.classList.remove('active');
+                        otherArrow.classList.remove('rotate');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

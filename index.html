@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas VIP</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
+    <!-- Google Fonts for Burmese script & Poppins for Headers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Settings */
+        body {
+            font-family: 'Padauk', sans-serif;
+            /* Deep, rich animated gradient background */
+            background: radial-gradient(circle at top left, #1e1b4b, #0f172a, #000000);
+            background-attachment: fixed;
+            background-size: cover;
+            color: #f3f4f6;
+            min-height: 100vh;
+        }
+        
+        /* Headers use Poppins for a cleaner look */
+        h1, h2, .font-english {
+            font-family: 'Poppins', 'Padauk', sans-serif;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5), 
+                        0 0 15px rgba(59, 130, 246, 0.3); /* Blue glow */
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Tab Animations */
+        .tab-item {
+            transition: all 0.3s ease;
+        }
+        .tab-active {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            border: none;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- Ambient Background Orbs (Visual Decoration) -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/20 rounded-full blur-[100px]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/5">
+        <div class="container mx-auto px-4 py-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 tracking-tight drop-shadow-sm">
+                LUCAS VIP
+            </h1>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="relative border-b border-white/5 bg-black/20">
+            <div class="container mx-auto px-2">
+                <div class="flex items-center justify-start space-x-3 overflow-x-auto whitespace-nowrap py-3 px-2 no-scrollbar">
+                    <button class="tab-item tab-active px-5 py-2 rounded-full text-sm font-medium border border-white/10 hover:bg-white/5" data-target="myanmar">မြန်မာ</button>
+                    <button class="tab-item px-5 py-2 rounded-full text-sm font-medium border border-white/10 text-gray-400 hover:text-white hover:bg-white/5" data-target="english">အင်္ဂလိပ်</button>
+                    <button class="tab-item px-5 py-2 rounded-full text-sm font-medium border border-white/10 text-gray-400 hover:text-white hover:bg-white/5" data-target="chinese">တရုတ်</button>
+                    <button class="tab-item px-5 py-2 rounded-full text-sm font-medium border border-white/10 text-gray-400 hover:text-white hover:bg-white/5" data-target="indian">အိန္ဒိယ</button>
+                    <button class="tab-item px-5 py-2 rounded-full text-sm font-medium border border-white/10 text-gray-400 hover:text-white hover:bg-white/5" data-target="japanese">ဂျပန်</button>
+                    <button class="tab-item px-5 py-2 rounded-full text-sm font-medium border border-white/10 text-gray-400 hover:text-white hover:bg-white/5" data-target="turkish">တူရကီ</button>
+                    <button class="tab-item px-5 py-2 rounded-full text-sm font-medium border border-white/10 text-gray-400 hover:text-white hover:bg-white/5" data-target="vietnamese">ဗီယက်နမ်</button>
+                    <button class="tab-item px-5 py-2 rounded-full text-sm font-medium border border-white/10 text-gray-400 hover:text-white hover:bg-white/5" data-target="filipino">ဖိလစ်ပိုင်</button>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Search Section -->
+        <div class="container mx-auto px-4 py-4">
+            <div class="relative max-w-2xl mx-auto group">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400 group-focus-within:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <input type="text" id="search-bar" placeholder="ဇာတ်ကားအမည်ဖြင့် ရှာဖွေရန်..." 
+                    class="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-12 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 focus:border-blue-400/30 transition-all shadow-inner backdrop-blur-sm">
+                <button id="clear-search" class="absolute inset-y-0 right-0 flex items-center pr-4 hidden hover:text-red-400 transition-colors">
+                    <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 mt-6 z-10 relative">
+        <!-- Contact Button -->
+        <a href="https://t.me/lucas_tyler" target="_blank" class="group relative block w-full md:w-2/3 mx-auto overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-[1px] shadow-lg hover:shadow-blue-500/40 transition-all duration-300">
+            <div class="relative flex items-center justify-center bg-gray-900/90 hover:bg-gray-900/50 backdrop-blur-md rounded-2xl py-3 px-4 transition-all duration-300 h-full">
+                <span class="mr-2 text-xl">✈️</span>
+                <span class="font-bold text-white group-hover:text-blue-100">အက်မင်အကောင့်ကို ဆက်သွယ်ရန်</span>
+            </div>
+        </a>
+
+        <div class="glass-panel mt-4 p-4 rounded-xl max-w-2xl mx-auto border-l-4 border-red-500/80 bg-red-900/10">
+            <p class="text-center text-red-300/90 text-sm leading-relaxed font-medium">
+                "VIP Channel မှာ ဇာတ်ကားရှာနည်း" ဆိုတဲ့ ဗီဒီယိုကိုရောက်သွားရင် အဲ့အတိုင်းကြည့်ပြီး ရှာပေးပါဗျ။ Link တိုက်ရိုက်ပေးလို့မရတဲ့ကားတွေမလို့ပါ။
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 z-10 relative min-h-screen">
+        
+        <!-- Myanmar Content Page -->
+        <div id="myanmar" class="page-content animate-fade-in">
+            <!-- Now Showing -->
+            <section class="mb-12" data-section="ပြသဆဲဇာတ်ကားများ">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-blue-500 rounded-full mr-3 shadow-[0_0_10px_#3b82f6]"></div>
+                    <h2 class="text-2xl font-bold text-white drop-shadow-md">ပြသဆဲဇာတ်ကားများ</h2>
+                </div>
+                <div id="now-showing-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+                    <!-- Movie items will be inserted here by JavaScript -->
+                    <!-- Loading Skeleton -->
+                    <div class="glass-card h-24 flex items-center justify-center animate-pulse"><span class="text-white/20">Loading...</span></div>
+                    <div class="glass-card h-24 flex items-center justify-center animate-pulse"><span class="text-white/20">Loading...</span></div>
+                </div>
+            </section>
+
+            <!-- Myanmar Movies -->
+            <section class="mb-12" data-section="မြန်မာဇာတ်ကားများ">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-emerald-500 rounded-full mr-3 shadow-[0_0_10px_#10b981]"></div>
+                    <h2 class="text-2xl font-bold text-white drop-shadow-md">မြန်မာဇာတ်ကားများ</h2>
+                </div>
+                <div id="myanmar-movies-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+            </section>
+            
+            <!-- Myanmar Series -->
+            <section class="mb-12" data-section="မြန်မာဇာတ်လမ်းတွဲများ">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-purple-500 rounded-full mr-3 shadow-[0_0_10px_#a855f7]"></div>
+                    <h2 class="text-2xl font-bold text-white drop-shadow-md">မြန်မာဇာတ်လမ်းတွဲများ</h2>
+                </div>
+                <div id="myanmar-series-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+            </section>
+
+            <!-- Upcoming Movies -->
+            <section class="mb-12" data-section="မထွက်သေးသည့်ဇာတ်ကားများ">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-yellow-500 rounded-full mr-3 shadow-[0_0_10px_#eab308]"></div>
+                    <h2 class="text-2xl font-bold text-white drop-shadow-md">မထွက်သေးသည့်ဇာတ်ကားများ</h2>
+                </div>
+                <div class="glass-panel rounded-2xl overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table id="upcoming-movies-table" class="w-full text-left">
+                            <thead class="bg-white/5 text-gray-300 border-b border-white/10 uppercase text-xs tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-4 font-semibold">ဇာတ်ကားအမည်</th>
+                                    <th class="px-6 py-4 font-semibold">အခြေအနေ</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <!-- Table rows will be inserted here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- English Content Page -->
+        <div id="english" class="page-content hidden animate-fade-in">
+            <section class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-blue-500 rounded-full mr-3 shadow-[0_0_10px_#3b82f6]"></div>
+                    <h2 class="text-2xl font-bold text-white font-english">English Movies</h2>
+                </div>
+                <div id="english-movies-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+            </section>
+        </div>
+
+        <!-- Chinese Content Page -->
+        <div id="chinese" class="page-content hidden animate-fade-in">
+            <section class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-red-500 rounded-full mr-3 shadow-[0_0_10px_#ef4444]"></div>
+                    <h2 class="text-2xl font-bold text-white font-english">Chinese Movies</h2>
+                </div>
+                <div id="chinese-movies-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+            </section>
+        </div>
+
+        <!-- Indian Content Page -->
+        <div id="indian" class="page-content hidden animate-fade-in">
+            <section class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-orange-500 rounded-full mr-3 shadow-[0_0_10px_#f97316]"></div>
+                    <h2 class="text-2xl font-bold text-white font-english">Indian Movies</h2>
+                </div>
+                <div id="indian-movies-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+            </section>
+        </div>
+
+        <!-- Japanese Content Page -->
+        <div id="japanese" class="page-content hidden animate-fade-in">
+            <section class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-pink-500 rounded-full mr-3 shadow-[0_0_10px_#ec4899]"></div>
+                    <h2 class="text-2xl font-bold text-white font-english">Japanese Movies</h2>
+                </div>
+                <div id="japanese-movies-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+            </section>
+        </div>
+
+        <!-- Turkish Content Page -->
+        <div id="turkish" class="page-content hidden animate-fade-in">
+            <section class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-teal-500 rounded-full mr-3 shadow-[0_0_10px_#14b8a6]"></div>
+                    <h2 class="text-2xl font-bold text-white font-english">Turkish Movies</h2>
+                </div>
+                <div id="turkish-movies-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+            </section>
+        </div>
+        
+        <!-- Vietnamese Content Page -->
+        <div id="vietnamese" class="page-content hidden animate-fade-in">
+             <section class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-yellow-600 rounded-full mr-3 shadow-[0_0_10px_#ca8a04]"></div>
+                    <h2 class="text-2xl font-bold text-white">ဗီယက်နမ်ဇာတ်ကားများ</h2>
+                </div>
+                <div id="vietnamese-movies-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+            </section>
+        </div>
+        
+        <!-- Filipino Content Page -->
+        <div id="filipino" class="page-content hidden animate-fade-in">
+            <section class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-1 h-8 bg-sky-500 rounded-full mr-3 shadow-[0_0_10px_#0ea5e9]"></div>
+                    <h2 class="text-2xl font-bold text-white font-english">Filipino Movies</h2>
+                </div>
+                <div id="filipino-movies-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+            </section>
+        </div>
+        
+    </main>
+    
+    <footer class="text-center py-8 text-white/30 text-sm">
+        <p>&copy; 2026 Lucas VIP.</p>
+    </footer>
+
+    <script>
+    // --- 1. CONFIGURATION (DATABASE LINKS) ---
+    // Same links as before
+    const sheetLinks = {
+        nowShowing: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=0&single=true&output=csv",
+        myanmarMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=126749248&single=true&output=csv",
+        myanmarSeries: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=193172154&single=true&output=csv",
+        upcomingMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1380251382&single=true&output=csv",
+        englishMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=219218587&single=true&output=csv",
+        chineseMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1143301910&single=true&output=csv",
+        indianMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=702220480&single=true&output=csv",
+        japaneseMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=2019763113&single=true&output=csv",
+        turkishMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1449911670&single=true&output=csv",
+        vietnameseMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1059251210&single=true&output=csv",
+        filipinoMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1569777483&single=true&output=csv"
+    };
+
+    // --- DOM ELEMENTS ---
+    const containers = {
+        nowShowing: document.getElementById('now-showing-list'),
+        myanmarMovies: document.getElementById('myanmar-movies-list'),
+        myanmarSeries: document.getElementById('myanmar-series-list'),
+        englishMovies: document.getElementById('english-movies-list'),
+        chineseMovies: document.getElementById('chinese-movies-list'),
+        indianMovies: document.getElementById('indian-movies-list'),
+        japaneseMovies: document.getElementById('japanese-movies-list'),
+        turkishMovies: document.getElementById('turkish-movies-list'),
+        vietnameseMovies: document.getElementById('vietnamese-movies-list'),
+        filipinoMovies: document.getElementById('filipino-movies-list'),
+        upcomingMovies: document.querySelector('#upcoming-movies-table tbody')
+    };
+
+    const searchBar = document.getElementById('search-bar');
+    const clearSearchBtn = document.getElementById('clear-search');
+    const tabs = document.querySelectorAll('.tab-item');
+    const pages = document.querySelectorAll('.page-content');
+
+    // --- 2. DATA FETCHING ---
+    function fetchMovieData(url) {
+        return new Promise((resolve, reject) => {
+            if (!url || url.includes("YOUR_")) {
+                console.warn("Link မထည့်ရသေးပါ: " + url);
+                resolve([]); 
+                return;
+            }
+            
+            Papa.parse(url, {
+                download: true,
+                header: true, 
+                skipEmptyLines: true,
+                complete: function(results) {
+                    resolve(results.data);
+                },
+                error: function(err) {
+                    console.error("Error fetching data:", err);
+                    resolve([]);
+                }
+            });
+        });
+    }
+
+    // --- 3. RENDERING (Updated with Glass Classes) ---
+
+    function createMovieCard(movie) {
+        if (!movie.title) return null;
+
+        const a = document.createElement('a');
+        a.href = movie.url || "#";
+        a.target = '_blank';
+        // NEW DESIGN: Glassmorphism Card Style
+        a.className = 'movie-item glass-card block p-4 rounded-2xl text-center text-gray-100 h-full flex items-center justify-center font-medium leading-relaxed hover:text-blue-300';
+        a.textContent = movie.title;
+        return a;
+    }
+
+    function createUpcomingRow(movie) {
+        if (!movie.title) return null;
+
+        const row = document.createElement('tr');
+        row.className = 'movie-item hover:bg-white/5 transition-colors';
+        
+        const titleCell = document.createElement('td');
+        titleCell.className = "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-200";
+        titleCell.textContent = movie.title;
+        
+        const statusCell = document.createElement('td');
+        statusCell.className = "px-6 py-4 whitespace-nowrap text-sm font-bold";
+        
+        // Color coding for status
+        if (movie.status && (movie.status.includes('ထွက်') || movie.status.includes('ရှိ'))) {
+             statusCell.classList.add('text-green-400');
+        } else {
+             statusCell.classList.add('text-yellow-400');
+        }
+        
+        statusCell.textContent = movie.status || "-";
+        
+        row.appendChild(titleCell);
+        row.appendChild(statusCell);
+        return row;
+    }
+
+    async function loadAllContent() {
+        for (const [key, url] of Object.entries(sheetLinks)) {
+            const container = containers[key];
+            if (!container) continue;
+
+            try {
+                const data = await fetchMovieData(url);
+                
+                // Clear existing content (like skeletons)
+                container.innerHTML = '';
+
+                data.forEach(movie => {
+                    let element;
+                    if (key === 'upcomingMovies') {
+                        element = createUpcomingRow(movie);
+                    } else {
+                        element = createMovieCard(movie);
+                    }
+                    if (element) container.appendChild(element);
+                });
+            } catch (error) {
+                console.log(`Failed to load ${key}`);
+            }
+        }
+    }
+
+    // --- 4. SEARCH & TABS FUNCTIONALITY ---
+
+    function handleSearch() {
+        const query = searchBar.value.toLowerCase().trim();
+        clearSearchBtn.classList.toggle('hidden', query.length === 0);
+
+        // ၁. စာရိုက်ထားရင် Tab အားလုံးကိုဖွင့်ပြမယ်၊ မရိုက်ရင် Active ဖြစ်တဲ့ Tab ပဲပြန်ပြမယ်
+        if (query.length > 0) {
+            pages.forEach(page => page.classList.remove('hidden'));
+        } else {
+            // Search မလုပ်တော့ရင် မူလ Tab ပြန်ပြမယ်
+            pages.forEach(page => page.classList.add('hidden'));
+            const activeTab = document.querySelector('.tab-item.tab-active');
+            if(activeTab) {
+                const targetId = activeTab.getAttribute('data-target');
+                const targetPage = document.getElementById(targetId);
+                if(targetPage) targetPage.classList.remove('hidden');
+            }
+        }
+
+        const items = document.querySelectorAll('.movie-item');
+        
+        // ၂. Item တွေကို လိုက်စစ်မယ်
+        items.forEach(item => {
+            const title = item.textContent.toLowerCase();
+            if (title.includes(query)) {
+                item.style.display = (item.tagName === 'TR') ? 'table-row' : 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    // Event Listeners
+    window.addEventListener('DOMContentLoaded', loadAllContent);
+
+    searchBar.addEventListener('input', handleSearch);
+    
+    clearSearchBtn.addEventListener('click', () => {
+        searchBar.value = '';
+        handleSearch();
+    });
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs
+            tabs.forEach(t => {
+                t.classList.remove('tab-active');
+                t.classList.remove('shadow-lg');
+                t.classList.add('text-gray-400');
+                t.classList.add('border-white/10');
+                t.classList.remove('border-none');
+            });
+            
+            // Add active class to clicked tab
+            tab.classList.add('tab-active');
+            tab.classList.remove('text-gray-400');
+            tab.classList.remove('border-white/10');
+            
+            const targetId = tab.getAttribute('data-target');
+            
+            // Hide all pages with fade effect
+            pages.forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('animate-fade-in');
+            });
+            
+            // Show target page
+            const targetPage = document.getElementById(targetId);
+            if(targetPage) {
+                targetPage.classList.remove('hidden');
+                // Trigger reflow for animation
+                void targetPage.offsetWidth; 
+                targetPage.classList.add('animate-fade-in');
+            }
+        });
+    });
+</script>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+</style>
+
+</body>
+</html>
