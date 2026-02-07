@@ -119,11 +119,14 @@
         <!-- Search Section -->
         <div class="container mx-auto px-4 py-4">
             <div class="relative max-w-2xl mx-auto group">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-400 group-focus-within:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <div class="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none z-10">
+                    <svg class="w-6 h-6 text-blue-400 group-focus-within:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
                 </div>
-                <input type="text" id="search-bar" placeholder="ဇာတ်ကားအမည်ဖြင့် ရှာဖွေရန်..." 
-                    class="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-12 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white/10 focus:border-blue-400/30 transition-all shadow-inner backdrop-blur-sm">
+                <input type="text" id="search-bar" placeholder="ဒေတာများ ဆွဲယူနေပါသည်...ခဏစောင့်ပေးပါ" disabled 
+                class="w-full bg-gray-900/80 border-2 border-blue-500/50 rounded-full py-4 pl-14 pr-24 text-white placeholder-gray-400 
+                   focus:outline-none focus:ring-4 focus:ring-blue-500/30 focus:border-blue-400 focus:bg-gray-800 transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] backdrop-blur-sm opacity-50 cursor-not-allowed">
                 <button id="clear-search" class="absolute inset-y-0 right-0 flex items-center pr-4 hidden hover:text-red-400 transition-colors">
                     <svg class="h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -396,14 +399,17 @@
     }
 
     async function loadAllContent() {
-        for (const [key, url] of Object.entries(sheetLinks)) {
+        const searchBar = document.getElementById('search-bar');
+        
+        // Fetch operations တွေကို Array တစ်ခုအနေနဲ့ စုစည်းလိုက်ပါတယ်
+        const fetchPromises = Object.entries(sheetLinks).map(async ([key, url]) => {
             const container = containers[key];
-            if (!container) continue;
+            if (!container) return;
 
             try {
                 const data = await fetchMovieData(url);
                 
-                // Clear existing content (like skeletons)
+                // Clear existing content
                 container.innerHTML = '';
 
                 data.forEach(movie => {
@@ -418,6 +424,19 @@
             } catch (error) {
                 console.log(`Failed to load ${key}`);
             }
+        });
+
+        // Promise.all က data တွေအကုန်လုံး ပြိုင်တူဆွဲပေးပါလိမ့်မယ် (ပိုမြန်သွားမယ်)
+        await Promise.all(fetchPromises);
+
+        // Data အကုန်ရောက်ပြီဆိုမှ Search bar ကို ဖွင့်ပေးမယ်
+        searchBar.disabled = false;
+        searchBar.classList.remove('opacity-50', 'cursor-not-allowed');
+        searchBar.placeholder = "ဇာတ်ကားအမည်ဖြင့် ရှာဖွေရန်...";
+
+        // အကယ်၍ User က တစ်ခုခု ရိုက်ထားပြီးသားဆိုရင် (cached value ကြောင့်) search ကို auto run ပေးမယ်
+        if (searchBar.value.trim() !== "") {
+            handleSearch();
         }
     }
 
