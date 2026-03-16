@@ -409,7 +409,7 @@
             </div>
 
             <!-- Body -->
-            <div class="p-6 flex-1 overflow-y-auto flex flex-col items-center justify-center min-h-[400px] no-scrollbar"
+            <div class="p-6 flex-1 overflow-y-auto flex flex-col items-center justify-start min-h-[400px] no-scrollbar"
                 id="guide-modal-body">
                 <!-- Content injected here via JS -->
             </div>
@@ -717,7 +717,7 @@
             }
 
             modalBody.innerHTML = `
-                <div class="w-full flex flex-col items-center animate-fade-in font-english">
+                <div class="w-full flex flex-col items-center animate-fade-in font-english my-auto">
                     ${imagesHtml}
                     <p class="text-lg text-slate-700 text-center max-w-2xl font-medium">${step.description}</p>
                 </div>
