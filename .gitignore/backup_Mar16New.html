@@ -247,12 +247,10 @@
                     <!-- Loading Skeleton -->
                     <div
                         class="movie-card h-24 flex items-center justify-center animate-pulse bg-slate-50 border-slate-100 shadow-none">
-                        <span class="text-slate-400">Loading...</span>
-                    </div>
+                        <span class="text-slate-400">Loading...</span></div>
                     <div
                         class="movie-card h-24 flex items-center justify-center animate-pulse bg-slate-50 border-slate-100 shadow-none">
-                        <span class="text-slate-400">Loading...</span>
-                    </div>
+                        <span class="text-slate-400">Loading...</span></div>
                 </div>
             </section>
 
@@ -390,46 +388,6 @@
     <footer class="text-center py-10 text-slate-400 text-sm font-english border-t border-slate-100 bg-slate-50 mt-auto">
         <p>&copy; 2026 Lucas VIP. All rights reserved.</p>
     </footer>
-
-    <!-- Step-by-Step Guide Modal -->
-    <div id="guide-modal"
-        class="fixed inset-0 z-[110] bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity duration-300 opacity-0">
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden relative transform transition-transform duration-300 scale-95"
-            id="guide-modal-content">
-            <!-- Header -->
-            <div class="flex items-center justify-between p-4 border-b border-slate-100">
-                <h3 class="text-xl font-semibold text-slate-800 font-english" id="guide-modal-title">Guide</h3>
-                <button id="guide-modal-close"
-                    class="text-slate-400 hover:text-slate-600 transition-colors p-1 rounded-full hover:bg-slate-100">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                        </path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="p-6 flex-1 overflow-y-auto flex flex-col items-center justify-center min-h-[400px] no-scrollbar"
-                id="guide-modal-body">
-                <!-- Content injected here via JS -->
-            </div>
-
-            <!-- Footer -->
-            <div class="p-4 border-t border-slate-100 flex items-center justify-between bg-slate-50">
-                <button id="guide-btn-prev"
-                    class="px-6 py-2.5 rounded-full font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                    နောက်သို့
-                </button>
-                <div class="flex space-x-1.5" id="guide-step-indicators">
-                    <!-- Dots injected here via JS -->
-                </div>
-                <button id="guide-btn-next"
-                    class="px-6 py-2.5 rounded-full font-medium text-white bg-blue-600 hover:bg-blue-700 shadow-sm hover:shadow-md transition-all">
-                    ရှေ့သို့
-                </button>
-            </div>
-        </div>
-    </div>
 
     <script>
         // --- 1. CONFIGURATION (DATABASE LINKS) ---
@@ -582,43 +540,11 @@
             const query = searchBar.value.toLowerCase().trim();
             clearSearchBtn.classList.toggle('hidden', query.length === 0);
 
-            const items = document.querySelectorAll('.movie-item');
-            const sections = document.querySelectorAll('section');
-
+            // ၁. စာရိုက်ထားရင် Tab အားလုံးကိုဖွင့်ပြမယ်၊ မရိုက်ရင် Active ဖြစ်တဲ့ Tab ပဲပြန်ပြမယ်
             if (query.length > 0) {
-                // ၁. စာရိုက်ထားရင် Tab အားလုံးကိုဖွင့်ပြမယ်
                 pages.forEach(page => page.classList.remove('hidden'));
-
-                // ၂. Item တွေကို လိုက်စစ်မယ်
-                items.forEach(item => {
-                    const title = item.textContent.toLowerCase();
-                    if (title.includes(query)) {
-                        item.style.display = (item.tagName === 'TR') ? 'table-row' : 'flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-
-                // ၃. Movie item မရှိတဲ့ section တွေကို ဖျောက်မယ်
-                sections.forEach(section => {
-                    const visibleItems = Array.from(section.querySelectorAll('.movie-item')).filter(item => item.style.display !== 'none');
-                    if (visibleItems.length > 0) {
-                        section.style.display = 'block';
-                    } else {
-                        section.style.display = 'none';
-                    }
-                });
             } else {
-                // ၄. Search မလုပ်တော့ရင် item တွေ section တွေကို မူလအတိုင်းပြန်ထားမယ်
-                items.forEach(item => {
-                    item.style.display = '';
-                });
-
-                sections.forEach(section => {
-                    section.style.display = '';
-                });
-
-                // ၅. မူလ Tab ပြန်ပြမယ်
+                // Search မလုပ်တော့ရင် မူလ Tab ပြန်ပြမယ်
                 pages.forEach(page => page.classList.add('hidden'));
                 const activeTab = document.querySelector('.tab-item.tab-active');
                 if (activeTab) {
@@ -627,6 +553,18 @@
                     if (targetPage) targetPage.classList.remove('hidden');
                 }
             }
+
+            const items = document.querySelectorAll('.movie-item');
+
+            // ၂. Item တွေကို လိုက်စစ်မယ်
+            items.forEach(item => {
+                const title = item.textContent.toLowerCase();
+                if (title.includes(query)) {
+                    item.style.display = (item.tagName === 'TR') ? 'table-row' : 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
 
         // Event Listeners
@@ -668,128 +606,6 @@
                     targetPage.classList.add('animate-fade-in');
                 }
             });
-        });
-
-        // --- 5. GUIDE MODAL LOGIC ---
-        const guideSteps = [
-            {
-                images: ['/images/1.png'],
-                layout: 'single',
-                description: "VIP ဝင်တုန်းကပေးထားတဲ့ ချန်နယ်တွေထဲမှာ နံပါတ် ၂ ကိုဝင်လိုက်ပါ"
-            },
-            {
-                images: ['/images/a2.png', '/images/b21.png', '/images/b2.png'],
-                layout: 'grid',
-                description: "မှန်ဘီလူးပုံလေးကိုရှာပြီးနှိပ်ပါ"
-            },
-            {
-                images: ['/images/3.png'],
-                layout: 'single',
-                description: "မိမိကြည့်ချင်တဲ့ဇာတ်ကားနာမည်ကိုရိုက်ရှာလို့ရပါပြီ။ အခုလိုပေါ်လာပါလိမ့်မယ်"
-            }
-        ];
-
-        let currentGuideStep = 0;
-
-        const modalEl = document.getElementById('guide-modal');
-        const modalContentEl = document.getElementById('guide-modal-content');
-        const modalBody = document.getElementById('guide-modal-body');
-        const btnPrev = document.getElementById('guide-btn-prev');
-        const btnNext = document.getElementById('guide-btn-next');
-        const closeBtn = document.getElementById('guide-modal-close');
-        const indicatorsContainer = document.getElementById('guide-step-indicators');
-        const modalTitle = document.getElementById('guide-modal-title');
-
-        function renderGuideStep() {
-            const step = guideSteps[currentGuideStep];
-            modalTitle.textContent = `Step ${currentGuideStep + 1} of ${guideSteps.length}`;
-
-            // Render images
-            let imagesHtml = '';
-            if (step.layout === 'single') {
-                imagesHtml = `<img src="${step.images[0]}" alt="Step ${currentGuideStep + 1}" class="max-w-full max-h-[50vh] object-contain rounded-lg shadow-sm border border-slate-200 mb-6">`;
-            } else if (step.layout === 'grid') {
-                imagesHtml = `
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full mb-6 relative">
-                        ${step.images.map((img, i) => `<img src="${img}" alt="Step ${currentGuideStep + 1} Part ${i + 1}" class="w-full h-auto object-contain sm:object-cover rounded-lg shadow-sm border border-slate-200 aspect-auto sm:aspect-[3/4]">`).join('')}
-                    </div>
-                `;
-            }
-
-            modalBody.innerHTML = `
-                <div class="w-full flex flex-col items-center animate-fade-in font-english">
-                    ${imagesHtml}
-                    <p class="text-lg text-slate-700 text-center max-w-2xl font-medium">${step.description}</p>
-                </div>
-            `;
-
-            // Update buttons
-            btnPrev.disabled = currentGuideStep === 0;
-            if (currentGuideStep === guideSteps.length - 1) {
-                btnNext.textContent = 'ပိတ်ရန်';
-                btnNext.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-                btnNext.classList.add('bg-slate-800', 'hover:bg-slate-900');
-            } else {
-                btnNext.textContent = 'ရှေ့သို့';
-                btnNext.classList.add('bg-blue-600', 'hover:bg-blue-700');
-                btnNext.classList.remove('bg-slate-800', 'hover:bg-slate-900');
-            }
-
-            // Update indicators
-            indicatorsContainer.innerHTML = guideSteps.map((_, i) => `
-                <div class="w-2.5 h-2.5 rounded-full transition-colors ${i === currentGuideStep ? 'bg-blue-600' : 'bg-slate-200'}"></div>
-            `).join('');
-        }
-
-        function openGuideModal() {
-            currentGuideStep = 0;
-            renderGuideStep();
-            modalEl.classList.remove('hidden');
-            // Trigger reflow
-            void modalEl.offsetWidth;
-            modalEl.classList.remove('opacity-0');
-            modalContentEl.classList.remove('scale-95');
-        }
-
-        function closeGuideModal() {
-            modalEl.classList.add('opacity-0');
-            modalContentEl.classList.add('scale-95');
-            setTimeout(() => {
-                modalEl.classList.add('hidden');
-            }, 300);
-        }
-
-        btnPrev.addEventListener('click', () => {
-            if (currentGuideStep > 0) {
-                currentGuideStep--;
-                renderGuideStep();
-            }
-        });
-
-        btnNext.addEventListener('click', () => {
-            if (currentGuideStep < guideSteps.length - 1) {
-                currentGuideStep++;
-                renderGuideStep();
-            } else {
-                closeGuideModal();
-            }
-        });
-
-        closeBtn.addEventListener('click', closeGuideModal);
-
-        modalEl.addEventListener('click', (e) => {
-            if (e.target === modalEl) {
-                closeGuideModal();
-            }
-        });
-
-        // Intercept clicks on specific TG link
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a');
-            if (link && link.href === 'https://t.me/LUCAS_VIPV2/12065/12118') {
-                e.preventDefault();
-                openGuideModal();
-            }
         });
     </script>
 
