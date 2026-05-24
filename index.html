@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Lucas VIP</title>
 
     <!-- Telegram Web App JS -->
@@ -11,7 +12,7 @@
 
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- Google Fonts for typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -435,20 +436,10 @@
     </div>
 
     <script>
-        // --- 1. CONFIGURATION (DATABASE LINKS) ---
-        const sheetLinks = {
-            nowShowing: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=0&single=true&output=csv",
-            myanmarMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=126749248&single=true&output=csv",
-            myanmarSeries: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=193172154&single=true&output=csv",
-            upcomingMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1380251382&single=true&output=csv",
-            englishMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=219218587&single=true&output=csv",
-            chineseMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1143301910&single=true&output=csv",
-            indianMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=702220480&single=true&output=csv",
-            japaneseMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=2019763113&single=true&output=csv",
-            turkishMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1449911670&single=true&output=csv",
-            vietnameseMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1059251210&single=true&output=csv",
-            filipinoMovies: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRNSPJs88XFdQUBSft0Ocn9zqmJykInW28dAQ9s-nFHQKmKasvgzaJvYskmMdp4aYQ_6jZif9mYwEuP/pub?gid=1569777483&single=true&output=csv"
-        };
+        // --- 1. CONFIGURATION (SUPABASE) ---
+        const SUPABASE_URL = 'https://aosnsdxpiyzskygnkhji.supabase.co';       // ← Fill in your Supabase project URL
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvc25zZHhwaXl6c2t5Z25raGppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDUwMDcsImV4cCI6MjA5NTE4MTAwN30.fs0Grtzt_yUKGbr5ukzgETC0Za1nmeDp0NNfOxTIQSQ'; // ← Fill in your Supabase anon/public ke
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // --- DOM ELEMENTS ---
         const containers = {
@@ -471,27 +462,23 @@
         const pages = document.querySelectorAll('.page-content');
 
         // --- 2. DATA FETCHING ---
-        function fetchMovieData(url) {
-            return new Promise((resolve, reject) => {
-                if (!url || url.includes("YOUR_")) {
-                    console.warn("Link မထည့်ရသေးပါ: " + url);
-                    resolve([]);
-                    return;
-                }
+        async function fetchMovieData(categoryName) {
+            try {
+                const { data, error } = await supabase
+                    .from('movies')
+                    .select('*')
+                    .eq('category', categoryName)
+                    .order('id', { ascending: false });
 
-                Papa.parse(url, {
-                    download: true,
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: function (results) {
-                        resolve(results.data);
-                    },
-                    error: function (err) {
-                        console.error("Error fetching data:", err);
-                        resolve([]);
-                    }
-                });
-            });
+                if (error) {
+                    console.error(`Error fetching ${categoryName}:`, error.message);
+                    return [];
+                }
+                return data || [];
+            } catch (err) {
+                console.error(`Error fetching ${categoryName}:`, err);
+                return [];
+            }
         }
 
         // --- 3. RENDERING ---
@@ -536,32 +523,43 @@
         }
 
         async function loadAllContent() {
-            const fetchPromises = [];
-            for (const [key, url] of Object.entries(sheetLinks)) {
+            const categories = [
+                'nowShowing',
+                'myanmarMovies',
+                'myanmarSeries',
+                'upcomingMovies',
+                'englishMovies',
+                'chineseMovies',
+                'indianMovies',
+                'japaneseMovies',
+                'turkishMovies',
+                'vietnameseMovies',
+                'filipinoMovies'
+            ];
+
+            const fetchPromises = categories.map(async (key) => {
                 const container = containers[key];
-                if (!container) continue;
+                if (!container) return;
 
-                fetchPromises.push((async () => {
-                    try {
-                        const data = await fetchMovieData(url);
+                try {
+                    const data = await fetchMovieData(key);
 
-                        // Clear existing content (like skeletons)
-                        container.innerHTML = '';
+                    // Clear existing content (like skeletons)
+                    container.innerHTML = '';
 
-                        data.forEach(movie => {
-                            let element;
-                            if (key === 'upcomingMovies') {
-                                element = createUpcomingRow(movie);
-                            } else {
-                                element = createMovieCard(movie);
-                            }
-                            if (element) container.appendChild(element);
-                        });
-                    } catch (error) {
-                        console.log(`Failed to load ${key}`);
-                    }
-                })());
-            }
+                    data.forEach(movie => {
+                        let element;
+                        if (key === 'upcomingMovies') {
+                            element = createUpcomingRow(movie);
+                        } else {
+                            element = createMovieCard(movie);
+                        }
+                        if (element) container.appendChild(element);
+                    });
+                } catch (error) {
+                    console.log(`Failed to load ${key}`);
+                }
+            });
 
             // Wait for all requests to finish
             await Promise.all(fetchPromises);
