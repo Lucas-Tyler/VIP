@@ -439,7 +439,7 @@
         // --- 1. CONFIGURATION (SUPABASE) ---
         const SUPABASE_URL = 'https://aosnsdxpiyzskygnkhji.supabase.co';       // ← Fill in your Supabase project URL
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvc25zZHhwaXl6c2t5Z25raGppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MDUwMDcsImV4cCI6MjA5NTE4MTAwN30.fs0Grtzt_yUKGbr5ukzgETC0Za1nmeDp0NNfOxTIQSQ'; // ← Fill in your Supabase anon/public ke
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // --- DOM ELEMENTS ---
         const containers = {
@@ -464,7 +464,7 @@
         // --- 2. DATA FETCHING ---
         async function fetchMovieData(categoryName) {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('movies')
                     .select('*')
                     .eq('category', categoryName)
